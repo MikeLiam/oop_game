@@ -5,7 +5,12 @@
 class Game {
     constructor() {
         this.missed = 0;
-        this.phrases = [new Phrase('Hola'), new Phrase('Adios'), new Phrase('Hasta luego'), new Phrase('Que vaya bien'), new Phrase('Volveremos a vernos')];
+        this.phrases = [
+            new Phrase('Toni es un pajaro de cuidado'), 
+            new Phrase('Lo siento pero el Mallorca desciende'), 
+            new Phrase('Armando ponme algo'), 
+            new Phrase('Hala Madrid'), 
+            new Phrase('Una estrella garcia por favor')];
         this.activePhrase = null;
     }
 
@@ -51,7 +56,7 @@ class Game {
             document.querySelectorAll('li.tries img')[4 - this.missed].setAttribute('src', "images/lostHeart.png");
             this.missed += 1;
         } else {
-            this.gameOver('You LOSE!', false);
+            this.gameOver('Eres un cule!', false);
         }
     }
 
@@ -68,7 +73,7 @@ class Game {
         }, 0);
 
         if(phraseHTML.length === letters) {
-            this.gameOver('You WIN!', true);
+            this.gameOver("Eres un fenomeno!", true);
         }
 
     }
