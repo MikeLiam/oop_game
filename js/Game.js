@@ -28,7 +28,8 @@
     }
 
     /**
-     * Checks to see if the button clicked by the player matches a letter in the phrase, and then directs the game based on a correct or incorrect guess
+     * Checks to see if the button clicked by the player matches a letter in the phrase, 
+     * and then directs the game based on a correct or incorrect guess
      */
     handleInteraction(element) {
         console.log(element.textContent);
@@ -36,7 +37,8 @@
 
     /**
      * Removes a life from the scoreboard.
-     * If the player has five missed guesses (i.e they're out of lives), then end the game by calling the gameOver() method.
+     * If the player has five missed guesses (i.e they're out of lives), 
+     * then end the game by calling the gameOver() method.
      */
     removeLife() {
 
@@ -50,10 +52,14 @@
     }
 
     /**
-     * displays the original start screen overlay, and depending on the outcome of the game, updates the overlay h1 element with a friendly win or loss message, 
+     * displays the original start screen overlay, and depending on the outcome of the game, 
+     * updates the overlay h1 element with a friendly win or loss message, 
      * and replaces the overlay’s start CSS class with either the win or lose CSS class.
      */
-    gameOver() {
-
+    gameOver(message, winClass) {
+        const overlay = document.querySelector('#overlay');
+        overlay.style.display = '';
+        overlay.className = winclass ? 'win' : 'lose';
+        document.querySelector('#game-over-message').textContent = message;
     }
  }
