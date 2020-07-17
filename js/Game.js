@@ -86,7 +86,17 @@ class Game {
         this.resetGame();
     }
 
+    /**
+     * Reset gameboard
+     */
     resetGame() {
-        document.querySelector
+        // Reset missed guess to 0
+        this.missed = 0;    
+        // Reset to key class all on screen keyboard buttons
+        [...document.querySelectorAll('#qwerty button.key')].forEach(element => element.className = 'key');
+        // Remove phrase to guess elements
+        [...document.querySelectorAll('#phrase li')].forEach(li => li.parentNode.removeChild(li));
+        // Reset all hearts
+        [...document.querySelectorAll('li.tries img')].forEach(heart => heart.setAttribute('src', "images/liveHeart.png"));
     }
 }

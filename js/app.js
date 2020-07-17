@@ -17,7 +17,7 @@ document.querySelector('#qwerty').addEventListener('click', (e) => {
 
 document.addEventListener('keypress', (e) => {
     // Array formated Key Buttons NodeList to use array' find method
-    const keys = [...document.querySelectorAll('#qwerty button')];
+    const keys = [...document.querySelectorAll('#qwerty button.key')];
     // Only when game is started and listening a-z press keys only
     if (game.activePhrase !== null && /^[a-z]$/i.test(e.key)) {
         const keyBtn = keys.find(key => key.textContent === e.key.toLowerCase());
