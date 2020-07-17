@@ -36,11 +36,9 @@
          this.phrase.forEach((letter, index) => {
             if (letter === letterInput) {
                 this.showMatchedLetter(index);
-                console.log(letter, index);
                 matches = true;
             } 
          });
-         console.log(this.phrase);
 
          return matches;
      }
@@ -50,7 +48,6 @@
       */
      showMatchedLetter(index) {
         const letters = document.querySelectorAll('#phrase li');
-        console.log(letters);
         letters[index].classList.remove('hide');
         letters[index].classList.add('show')
      }

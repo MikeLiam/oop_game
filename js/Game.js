@@ -43,11 +43,10 @@
      * If the player has five missed guesses (i.e they're out of lives), 
      * then end the game by calling the gameOver() method.
      */
-    removeLife() {
-        this.missed += 1;
-    
-        if (this.missed <= 5) {
-            document.querySelectorAll('li.tries')[5 - this.missed].style.display = 'none';
+    removeLife() {      
+        if (this.missed < 4) {
+            document.querySelectorAll('li.tries img')[4 - this.missed].setAttribute('src', "images/lostHeart.png");
+            this.missed += 1;
         } else {
             this.gameOver('You LOSE!', false);
         }
@@ -68,7 +67,7 @@
     gameOver(message, winClass) {
         const overlay = document.querySelector('#overlay');
         overlay.style.display = '';
-        overlay.className = winclass ? 'win' : 'lose';
+        overlay.className = winClass ? 'win' : 'lose';
         document.querySelector('#game-over-message').textContent = message;
     }
  }
