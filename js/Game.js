@@ -32,7 +32,10 @@
      * and then directs the game based on a correct or incorrect guess
      */
     handleInteraction(element) {
-        console.log(element.textContent);
+        //console.log(element.textContent);
+        if (!this.activePhrase.checkLetter(element.textContent)) {
+            this.removeLife();
+        }
     }
 
     /**
@@ -41,7 +44,13 @@
      * then end the game by calling the gameOver() method.
      */
     removeLife() {
-
+        this.missed += 1;
+    
+        if (this.missed <= 5) {
+            document.querySelectorAll('li.tries')[5 - this.missed].style.display = 'none';
+        } else {
+            this.gameOver('You LOSE!', false);
+        }
     }
 
     /**

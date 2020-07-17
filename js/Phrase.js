@@ -31,15 +31,28 @@
      /**
       * checks to see if the letter selected by the player matches a letter in the phrase.
       */
-     checkLetter() {
+     checkLetter(letterInput) {
+         let matches = false;
+         this.phrase.forEach((letter, index) => {
+            if (letter === letterInput) {
+                this.showMatchedLetter(index);
+                console.log(letter, index);
+                matches = true;
+            } 
+         });
+         console.log(this.phrase);
 
+         return matches;
      }
      
      /**
       * reveals the letter(s) on the board that matches the player's selection. 
       */
-     showMatchedLetter() {
-
+     showMatchedLetter(index) {
+        const letters = document.querySelectorAll('#phrase li');
+        console.log(letters);
+        letters[index].classList.remove('hide');
+        letters[index].classList.add('show')
      }
 
  }
