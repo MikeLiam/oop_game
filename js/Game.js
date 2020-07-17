@@ -2,7 +2,7 @@
  * Project 4 - OOP Game App
  * Game.js */
 
- class Game {
+class Game {
     constructor() {
         this.missed = 0;
         this.phrases = [new Phrase('Hola'), new Phrase('Adios'), new Phrase('Hasta luego'), new Phrase('Que vaya bien'), new Phrase('Volveremos a vernos')];
@@ -32,9 +32,12 @@
      * and then directs the game based on a correct or incorrect guess
      */
     handleInteraction(element) {
-        //console.log(element.textContent);
         if (!this.activePhrase.checkLetter(element.textContent)) {
+            element.classList.add('wrong');
             this.removeLife();
+        } else {
+            element.classList.add('chosen');
+            this.checkForWin();
         }
     }
 
@@ -43,7 +46,7 @@
      * If the player has five missed guesses (i.e they're out of lives), 
      * then end the game by calling the gameOver() method.
      */
-    removeLife() {      
+    removeLife() {
         if (this.missed < 4) {
             document.querySelectorAll('li.tries img')[4 - this.missed].setAttribute('src', "images/lostHeart.png");
             this.missed += 1;
@@ -56,6 +59,17 @@
      * Checks to see if the player has revealed all of the letters in the active phrase.
      */
     checkForWin() {
+        const phraseHTML = document.querySelectorAll('#phrase li.show');
+        const letters = this.activePhrase.phrase.reduce((total, letter) => {
+            if(letter !== ' ') {
+                total += 1;
+            }
+            return total
+        }, 0);
+
+        if(phraseHTML.length === letters) {
+            this.gameOver('You WIN!', true);
+        }
 
     }
 
@@ -69,5 +83,10 @@
         overlay.style.display = '';
         overlay.className = winClass ? 'win' : 'lose';
         document.querySelector('#game-over-message').textContent = message;
+        this.resetGame();
     }
- }
+
+    resetGame() {
+        document.querySelector
+    }
+}
