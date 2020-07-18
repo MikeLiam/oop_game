@@ -21,7 +21,6 @@ document.addEventListener('keypress', (e) => {
     // Only when game is started and listening a-z press keys only
     if (game.activePhrase !== null && /^[a-z]$/i.test(e.key)) {
         const keyBtn = keys.find(key => key.textContent === e.key.toLowerCase());
-        keyBtn.focus();
         game.handleInteraction(keyBtn);
     }
 

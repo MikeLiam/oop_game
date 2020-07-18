@@ -14,6 +14,10 @@
   --font-size-large: 60px;
   --font-size-medium: 20px;
   --transition: all .2s ease-in-out;
+  --tx1: 0;
+  --ty1: 0;
+  --tx2: 0;
+  --ty2: 0;
 }
 
 /* main */
@@ -104,10 +108,8 @@ button {
 }
 
 .space {
-  width: 15px;
+  margin: 20px;
 }
-
-
 
 .show {
   color: #fff;
@@ -120,6 +122,10 @@ button {
   border-radius: 5px;
   -webkit-animation-duration: .5s;
   animation-duration: .5s;
+  -webkit-transform: rotateY(360deg);
+   transform: rotateY(360deg);   
+   transition: all 1s linear; 
+   -webkit-transition: all 1s linear; 
 }
 
 
@@ -131,15 +137,26 @@ button {
 }
 
 .chosen {
-  background: #3a3f58;
+  background: #449141;
   border-radius: 5px;
   font-size: var(--font-size-medium);
   color: #FFFFFF;
 }
 
 .wrong {
-  background: #f7a964;
+  background: #ac1e1e;
   color: #FFFFFF;
+  border-radius: 50%;
+  transition: all 1s;
+}
+
+.clone {
+  position: absolute;
+  animation: keys 1s normal 1 ease-out forwards;
+}
+@keyframes keys {
+  40%   {transform: scale(2); left: var(--tx1); top: var(--ty1) ;}
+  100% {transform: scale(0); left: var(--tx2); top: var(--ty2);}
 }
 
 .btn__reset {

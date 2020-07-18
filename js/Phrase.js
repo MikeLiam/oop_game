@@ -49,7 +49,8 @@
      showMatchedLetter(index) {
         const letters = document.querySelectorAll('#phrase li');
         letters[index].classList.remove('hide');
-        letters[index].classList.add('show')
+        letters[index].classList.add('show');
+
      }
 
  }

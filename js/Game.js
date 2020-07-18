@@ -6,11 +6,12 @@ class Game {
     constructor() {
         this.missed = 0;
         this.phrases = [
-            new Phrase('Toni es un pajaro de cuidado'), 
-            new Phrase('Lo siento pero el Mallorca desciende'), 
-            new Phrase('Armando ponme algo'), 
-            new Phrase('Hala Madrid'), 
-            new Phrase('Una estrella garcia por favor')];
+            new Phrase('Toni es un pajaro de cuidado'),
+            new Phrase('Lo siento pero el Mallorca desciende'),
+            new Phrase('Armando ponme algo'),
+            new Phrase('Hala Madrid'),
+            new Phrase('Una estrella garcia por favor')
+        ];
         this.activePhrase = null;
     }
 
@@ -37,9 +38,36 @@ class Game {
      * and then directs the game based on a correct or incorrect guess
      */
     handleInteraction(element) {
-        if (!this.activePhrase.checkLetter(element.textContent)) {
+        function keyMotion(element,heart) {
+            const clone = element.cloneNode(true);
+            const parent = document.querySelector('.main-container');
+            element.parentNode.appendChild(clone);
+
+            const cloneLeft = element.offsetLeft - parent.offsetLeft;
+            const cloneTop = element.offsetTop - parent.offsetTop;
+    
+            clone.style.left = `${cloneLeft}px`;
+            clone.style.top = `${cloneTop}px`;
+
+            const moveTop = heart.offsetTop - parent.offsetTop;
+            const moveLeft = heart.offsetLeft - parent.offsetLeft;
+
+            clone.style.setProperty('--tx1', (cloneLeft - 40) + 'px');
+            clone.style.setProperty('--ty1', (cloneTop + 30) + 'px');
+            clone.style.setProperty('--tx2', moveLeft + 'px');
+            clone.style.setProperty('--ty2', moveTop + 'px');
+
+            clone.classList.add('clone');
             element.classList.add('wrong');
-            this.removeLife();
+        }
+        
+        if (!this.activePhrase.checkLetter(element.textContent)) {
+            keyMotion(element, document.querySelectorAll('li.tries img')[4 - this.missed]);
+            setTimeout(() => {
+                const lostKey = document.querySelector('button.clone');
+                lostKey.parentNode.removeChild(lostKey);
+                this.removeLife();
+            }, 900);
         } else {
             element.classList.add('chosen');
             this.checkForWin();
@@ -66,13 +94,13 @@ class Game {
     checkForWin() {
         const phraseHTML = document.querySelectorAll('#phrase li.show');
         const letters = this.activePhrase.phrase.reduce((total, letter) => {
-            if(letter !== ' ') {
+            if (letter !== ' ') {
                 total += 1;
             }
             return total
         }, 0);
 
-        if(phraseHTML.length === letters) {
+        if (phraseHTML.length === letters) {
             this.gameOver("Eres un fenomeno!", true);
         }
 
@@ -96,7 +124,7 @@ class Game {
      */
     resetGame() {
         // Reset missed guess to 0
-        this.missed = 0;    
+        this.missed = 0;
         // Reset to key class all on screen keyboard buttons
         [...document.querySelectorAll('#qwerty button.key')].forEach(element => element.className = 'key');
         // Remove phrase to guess elements
