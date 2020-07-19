@@ -6,11 +6,11 @@ class Game {
     constructor() {
         this.missed = 0;
         this.phrases = [
-            new Phrase('Toni es un pajaro de cuidado'),
-            new Phrase('Lo siento pero el Mallorca desciende'),
-            new Phrase('Armando ponme algo'),
-            new Phrase('Hala Madrid'),
-            new Phrase('Una estrella garcia por favor')
+            new Phrase('Just keep swimming'),
+            new Phrase('May the Force be with you'),
+            new Phrase('Love means never having to say you are sorry'),
+            new Phrase('Even the smallest person can change the course of the future'),
+            new Phrase('The needs of the many outweigh the needs of the few')
         ];
         this.activePhrase = null;
     }
@@ -60,7 +60,7 @@ class Game {
             clone.classList.add('clone');
             element.classList.add('wrong');
         }
-        
+        if (!element.classList.contains('wrong') && !element.classList.contains('wrong')){
         if (!this.activePhrase.checkLetter(element.textContent)) {
             keyMotion(element, document.querySelectorAll('li.tries img')[4 - this.missed]);
             setTimeout(() => {
@@ -73,6 +73,7 @@ class Game {
             this.checkForWin();
         }
     }
+    }
 
     /**
      * Removes a life from the scoreboard.
@@ -84,7 +85,7 @@ class Game {
             document.querySelectorAll('li.tries img')[4 - this.missed].setAttribute('src', "images/lostHeart.png");
             this.missed += 1;
         } else {
-            this.gameOver('Eres un cule!', false);
+            this.gameOver('May the luck be with you next time', false);
         }
     }
 
@@ -101,7 +102,7 @@ class Game {
         }, 0);
 
         if (phraseHTML.length === letters) {
-            this.gameOver("Eres un fenomeno!", true);
+            this.gameOver("You rock it!", true);
         }
 
     }
