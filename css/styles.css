@@ -1,12 +1,11 @@
-/* Main styles */
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&Roboto:300');
+
 
 /* Variables */
 
 :root {
-  --color-win: #78CF82;
-  --color-lose: #D94545;
-  --color-start: #5b85b7;
+  --color-win: #5aa162;
+  --color-lose: #b81e1e;
+  --color-start: #37649b;
   --color-neutral: #445069;
   --color-neutral-light: #D2D2D2;
   --color-keys: #37474F;
@@ -24,7 +23,7 @@
 
 * {
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Rowdies', cursive, sans-serif;
 }
 
 body {
@@ -213,7 +212,7 @@ button {
 }
 
 .lose {
-  background-color: #f5785f;
+  background-color: var(--color-lose);
 }
 
 .lose a {

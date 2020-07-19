@@ -115,8 +115,20 @@ class Game {
     gameOver(message, winClass) {
         const overlay = document.querySelector('#overlay');
         overlay.style.display = '';
-        overlay.className = winClass ? 'win' : 'lose';
-        document.querySelector('#game-over-message').textContent = message;
+        
+        const messageFinish = document.querySelector('#game-over-message')
+        messageFinish.textContent = message;
+        if (winClass) {
+            overlay.className = 'win';
+            const phraseP = document.createElement('h3');
+            let phraseToShow = this.activePhrase.phrase.join('');
+            phraseToShow = phraseToShow.charAt(0).toUpperCase() + phraseToShow.slice(1);
+            phraseP.textContent = `"${phraseToShow}"`;
+            overlay.insertBefore(phraseP, messageFinish)
+        } else {
+            overlay.className = 'lose';
+        }
+        
         this.resetGame();
     }
 
