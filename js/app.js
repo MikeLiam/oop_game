@@ -3,18 +3,19 @@
  * app.js */
 
 const game = new Game();
-
+// Event listener for start button to play
 document.querySelector('#btn__reset').addEventListener('click', () => {
     game.startGame();
 });
 
+// Event listener for mouse click on qwerty panel
 document.querySelector('#qwerty').addEventListener('click', (e) => {
     // Event delegation
     if (e.target.tagName === 'BUTTON') {
         game.handleInteraction(e.target);
     }
 });
-
+// Event listener for keypressing
 document.addEventListener('keypress', (e) => {
     // Array formated Key Buttons NodeList to use array' find method
     const keys = [...document.querySelectorAll('#qwerty button.key')];

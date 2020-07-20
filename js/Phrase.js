@@ -29,7 +29,9 @@
      }
 
      /**
-      * checks to see if the letter selected by the player matches a letter in the phrase.
+      * Checks to see if the letter selected by the player matches a letter in the phrase
+      * and call to show letter(s) in phrase board
+      * @param {String} letterInput Letter pressed
       */
      checkLetter(letterInput) {
          let matches = false;
@@ -44,7 +46,8 @@
      }
      
      /**
-      * reveals the letter(s) on the board that matches the player's selection. 
+      * Reveals the letter(s) on the board that matches the player's selection. 
+      * @param {Int} index Letter index in phrase array 
       */
      showMatchedLetter(index) {
         const letters = document.querySelectorAll('#phrase li');

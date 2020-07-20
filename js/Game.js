@@ -16,7 +16,7 @@ class Game {
     }
 
     /**
-     * Hides the start screen overlay, gets a random phrase and adds itto the board.
+     * Hides the start screen overlay, gets a random phrase and adds into the board.
      */
     startGame() {
         document.querySelector('#overlay').style.display = 'none';
@@ -27,56 +27,70 @@ class Game {
     }
 
     /**
-     * randomly retrieves one of the phrase objects stored in the phrases array and returns it.
+     * Randomly retrieves one of the phrase objects stored in the phrase objects array and returns it.
      */
     getRandomPhrase() {
         return this.phrases[Math.floor(Math.random() * 5)];
     }
 
     /**
-     * Checks to see if the button clicked by the player matches a letter in the phrase, 
+     * Checks to see if the button clicked 'element' by the player matches a letter in the phrase, 
      * and then directs the game based on a correct or incorrect guess
+     * @param {HTMLElement} element 
      */
     handleInteraction(element) {
-        function keyMotion(element,heart) {
+        /**
+         * Add animation showing how the incorrect 'element' letter takes away a 'heart' lifeHeart
+         * @param {HTMLElement} element 
+         * @param {HTMLElement} heart 
+         */
+        function keyMotion(element, heart) {
+            // Clone the incorrect letter and add it to the qwerty
             const clone = element.cloneNode(true);
             const parent = document.querySelector('.main-container');
             element.parentNode.appendChild(clone);
-
+            // letter' offset left/top taking care of container offset
             const cloneLeft = element.offsetLeft - parent.offsetLeft;
             const cloneTop = element.offsetTop - parent.offsetTop;
-    
+            // place clone
             clone.style.left = `${cloneLeft}px`;
             clone.style.top = `${cloneTop}px`;
-
+            // lifeheart to take away' offset left/top taking care of container offset
             const moveTop = heart.offsetTop - parent.offsetTop;
             const moveLeft = heart.offsetLeft - parent.offsetLeft;
-
+            // Animation in two steps with css variables
             clone.style.setProperty('--tx1', (cloneLeft - 40) + 'px');
             clone.style.setProperty('--ty1', (cloneTop + 30) + 'px');
             clone.style.setProperty('--tx2', moveLeft + 'px');
             clone.style.setProperty('--ty2', moveTop + 'px');
-
+            // class for animation in clone
             clone.classList.add('clone');
+            // class wrong in qwerty element
             element.classList.add('wrong');
         }
-        if (!element.classList.contains('wrong') && !element.classList.contains('wrong')){
-        if (!this.activePhrase.checkLetter(element.textContent)) {
-            keyMotion(element, document.querySelectorAll('li.tries img')[4 - this.missed]);
-            setTimeout(() => {
-                const lostKey = document.querySelector('button.clone');
-                lostKey.parentNode.removeChild(lostKey);
-                this.removeLife();
-            }, 900);
-        } else {
-            element.classList.add('chosen');
-            this.checkForWin();
+        // Prevent pressing a pressed key
+        if (!element.classList.contains('wrong') && !element.classList.contains('chosen')) {
+            // Handle letter included in phrase
+            if (!this.activePhrase.checkLetter(element.textContent)) {
+                // Animation for incorrect letter
+                keyMotion(element, document.querySelectorAll('li.tries img')[4 - this.missed]);
+                // Coordinates changing life with incorrect letter animation 
+                // and delete cloned element at the end.
+                setTimeout(() => {
+                    const lostKey = document.querySelector('button.clone');
+                    lostKey.parentNode.removeChild(lostKey);
+                    this.removeLife();
+                }, 900);
+            } else {
+                // Coorect letter and check if player win
+                element.classList.add('chosen');
+                this.checkForWin();
+            }
         }
-    }
     }
 
     /**
-     * Removes a life from the scoreboard.
+     * Removes a life from the scoreboard changing 'liveHeart.png' for 'lostHeart.png'.
      * If the player has five missed guesses (i.e they're out of lives), 
      * then end the game by calling the gameOver() method.
      */
@@ -90,7 +104,9 @@ class Game {
     }
 
     /**
-     * Checks to see if the player has revealed all of the letters in the active phrase.
+     * Checks to see if the player has revealed all of the letters in the active phrase
+     * comparing number of elements <li> of letter with class '.show' with length of 
+     * active phrase without spaces.
      */
     checkForWin() {
         const phraseHTML = document.querySelectorAll('#phrase li.show');
@@ -110,15 +126,19 @@ class Game {
     /**
      * displays the original start screen overlay, and depending on the outcome of the game, 
      * updates the overlay h1 element with a friendly win or loss message, 
-     * and replaces the overlay’s start CSS class with either the win or lose CSS class.
+     * add a <h3> element to show the prhase if it is guessed,
+     * replaces the overlay’s start CSS class with either the win or lose CSS class,
+     * call resetGame for next play
+     * @param {String} message 
+     * @param {Boolean} winOrNot 
      */
-    gameOver(message, winClass) {
+    gameOver(message, winOrNot) {
         const overlay = document.querySelector('#overlay');
         overlay.style.display = '';
-        
+
         const messageFinish = document.querySelector('#game-over-message')
         messageFinish.textContent = message;
-        if (winClass) {
+        if (winOrNot) {
             overlay.className = 'win';
             const phraseP = document.createElement('h3');
             let phraseToShow = this.activePhrase.phrase.join('');
@@ -128,7 +148,7 @@ class Game {
         } else {
             overlay.className = 'lose';
         }
-        
+
         this.resetGame();
     }
 

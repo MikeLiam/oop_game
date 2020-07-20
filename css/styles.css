@@ -94,6 +94,10 @@ button {
 
 
 /* Phrase */
+#phrase {
+  background-color: var(--color-neutral-light);
+
+}
 
 .letter {
   font-size: var(--font-size-medium);
@@ -102,7 +106,7 @@ button {
   padding: 20px 1px 0 1px;
   margin-right: 2px;
   color: transparent;
-  background: var(--color-neutral-light);
+  background-color: #0c1d7e;
   border-radius: 5px;
 }
 
@@ -111,8 +115,8 @@ button {
 }
 
 .show {
-  color: #fff;
-  background-color: #4ac0d5;
+  color: rgb(0, 0, 0);
+  background-color: #ffffff;
   font-size: 20px;
   height: 65px;
   width: 65px;
