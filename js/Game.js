@@ -158,6 +158,8 @@ class Game {
     resetGame() {
         // Reset missed guess to 0
         this.missed = 0;
+        // Reset active phrase
+        this.activePhrase = null;
         // Reset to key class all on screen keyboard buttons
         [...document.querySelectorAll('#qwerty button.key')].forEach(element => element.className = 'key');
         // Remove phrase to guess elements
