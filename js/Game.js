@@ -129,6 +129,7 @@ class Game {
         // Show start/end screen
         const overlay = document.querySelector('#overlay');
         overlay.style.display = '';
+        let phraseP = document.querySelector('#js_phraseP');
 
         const messageFinish = document.querySelector('#game-over-message')
         if (winOrLose) {
@@ -137,23 +138,26 @@ class Game {
             // Win message
             messageFinish.textContent = "You rock it!";
             // Check if element to show phrase exist
-            let phraseP = document.querySelector('#js_phraseP');
             if (phraseP === null) {
                 // Create element if doesnt exist
                 phraseP = document.createElement('h3');
                 phraseP.setAttribute('id', 'js_phraseP');
                 overlay.insertBefore(phraseP, messageFinish);
             }
+            phraseP.style.display = '';
             let phraseToShow = this.activePhrase.phrase.join('');
             phraseToShow = phraseToShow.charAt(0).toUpperCase() + phraseToShow.slice(1);
             phraseP.textContent = `"${phraseToShow}"`;
         } else {
+            if (phraseP !== null) {
+                phraseP.style.display = 'none';
+            }
             // Style for lose screen
             overlay.className = 'lose';
             // Lose message
             messageFinish.textContent = 'May the luck be with you next time';
         }
-        
+
         this.resetGame();
     }
 
