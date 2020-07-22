@@ -3,6 +3,7 @@
  * app.js */
 
 let game = null;
+
 // Event listener for start button to play
 document.querySelector('#btn__reset').addEventListener('click', () => {
     game = new Game();
@@ -26,6 +27,6 @@ document.addEventListener('keypress', (e) => {
         // Check is key button is enable to press
         if (!keyBtn.disabled) {
             game.handleInteraction(keyBtn);
-        }
+            }
     }
 });

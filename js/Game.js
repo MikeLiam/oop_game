@@ -22,7 +22,6 @@ class Game {
         document.querySelector('#overlay').style.display = 'none';
         this.getRandomPhrase();
         this.activePhrase = this.getRandomPhrase();
-
         this.activePhrase.addPhraseToDisplay();
     }
 
@@ -76,7 +75,7 @@ class Game {
             keyMotion(element, document.querySelectorAll('li.tries img')[4 - this.missed]);
             // Coordinates changing life with incorrect letter animation 
             // and delete cloned element at the end.
-            setTimeout(() => this.removeLife(), 800);
+            setTimeout(async () => this.removeLife(), 800);
         } else {
             // Change class to letter onscreen keyboard
             element.classList.add('chosen');
@@ -137,19 +136,24 @@ class Game {
             overlay.className = 'win';
             // Win message
             messageFinish.textContent = "You rock it!";
-            // Create phrase guessed to show
-            const phraseP = document.createElement('h3');
+            // Check if element to show phrase exist
+            let phraseP = document.querySelector('#js_phraseP');
+            if (phraseP === null) {
+                // Create element if doesnt exist
+                phraseP = document.createElement('h3');
+                phraseP.setAttribute('id', 'js_phraseP');
+                overlay.insertBefore(phraseP, messageFinish);
+            }
             let phraseToShow = this.activePhrase.phrase.join('');
             phraseToShow = phraseToShow.charAt(0).toUpperCase() + phraseToShow.slice(1);
             phraseP.textContent = `"${phraseToShow}"`;
-            overlay.insertBefore(phraseP, messageFinish)
         } else {
             // Style for lose screen
             overlay.className = 'lose';
             // Lose message
             messageFinish.textContent = 'May the luck be with you next time';
         }
-
+        
         this.resetGame();
     }
 
@@ -157,10 +161,6 @@ class Game {
      * Reset gameboard
      */
     resetGame() {
-        // Reset missed guess to 0
-        this.missed = 0;
-        // Reset active phrase
-        this.activePhrase = null;
         // Remove clone keys for animations
         [...document.querySelectorAll('button.clone')].forEach(clone => clone.parentNode.removeChild(clone));
         // Reset to key class and enable all onscreen keyboard buttons
