@@ -2,9 +2,10 @@
  * Project 4 - OOP Game App
  * app.js */
 
-const game = new Game();
+let game = null;
 // Event listener for start button to play
 document.querySelector('#btn__reset').addEventListener('click', () => {
+    game = new Game();
     game.startGame();
 });
 
@@ -22,8 +23,9 @@ document.addEventListener('keypress', (e) => {
     // Only when game is started and listening a-z press keys only
     if (game.activePhrase !== null && /^[a-z]$/i.test(e.key)) {
         const keyBtn = keys.find(key => key.textContent === e.key.toLowerCase());
-        game.handleInteraction(keyBtn);
+        // Check is key button is enable to press
+        if (!keyBtn.disabled) {
+            game.handleInteraction(keyBtn);
+        }
     }
-
-
 });

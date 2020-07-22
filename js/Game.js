@@ -68,23 +68,21 @@ class Game {
             // class wrong in qwerty element
             element.classList.add('wrong');
         }
-        // Prevent pressing a pressed key
-        if (!element.classList.contains('wrong') && !element.classList.contains('chosen')) {
-            // Handle letter included in phrase
-            if (!this.activePhrase.checkLetter(element.textContent)) {
-                // Animation for incorrect letter
-                keyMotion(element, document.querySelectorAll('li.tries img')[4 - this.missed]);
-                // Coordinates changing life with incorrect letter animation 
-                // and delete cloned element at the end.
-                setTimeout(() => {
-                    const lostKey = document.querySelector('button.clone');
-                    lostKey.parentNode.removeChild(lostKey);
-                    this.removeLife();
-                }, 900);
-            } else {
-                // Coorect letter and check if player win
-                element.classList.add('chosen');
-                this.checkForWin();
+        // Disable selected letter onscreen keyboard
+        element.disabled = true;
+        // Handle letter included in phrase
+        if (!this.activePhrase.checkLetter(element.textContent)) {
+            // Animation for incorrect letter
+            keyMotion(element, document.querySelectorAll('li.tries img')[4 - this.missed]);
+            // Coordinates changing life with incorrect letter animation 
+            // and delete cloned element at the end.
+            setTimeout(() => this.removeLife(), 800);
+        } else {
+            // Change class to letter onscreen keyboard
+            element.classList.add('chosen');
+            // Check if player win to call gameOver() method
+            if (this.checkForWin()) {
+                this.gameOver(true);
             }
         }
     }
@@ -99,7 +97,7 @@ class Game {
             document.querySelectorAll('li.tries img')[4 - this.missed].setAttribute('src', "images/lostHeart.png");
             this.missed += 1;
         } else {
-            this.gameOver('May the luck be with you next time', false);
+            this.gameOver(false);
         }
     }
 
@@ -117,10 +115,7 @@ class Game {
             return total
         }, 0);
 
-        if (phraseHTML.length === letters) {
-            this.gameOver("You rock it!", true);
-        }
-
+        return phraseHTML.length === letters ? true : false;
     }
 
     /**
@@ -129,24 +124,30 @@ class Game {
      * add a <h3> element to show the prhase if it is guessed,
      * replaces the overlay’s start CSS class with either the win or lose CSS class,
      * call resetGame for next play
-     * @param {String} message 
-     * @param {Boolean} winOrNot 
+     * @param {Boolean} winOrLose
      */
-    gameOver(message, winOrNot) {
+    gameOver(winOrLose) {
+        // Show start/end screen
         const overlay = document.querySelector('#overlay');
         overlay.style.display = '';
 
         const messageFinish = document.querySelector('#game-over-message')
-        messageFinish.textContent = message;
-        if (winOrNot) {
+        if (winOrLose) {
+            // Style for win screen
             overlay.className = 'win';
+            // Win message
+            messageFinish.textContent = "You rock it!";
+            // Create phrase guessed to show
             const phraseP = document.createElement('h3');
             let phraseToShow = this.activePhrase.phrase.join('');
             phraseToShow = phraseToShow.charAt(0).toUpperCase() + phraseToShow.slice(1);
             phraseP.textContent = `"${phraseToShow}"`;
             overlay.insertBefore(phraseP, messageFinish)
         } else {
+            // Style for lose screen
             overlay.className = 'lose';
+            // Lose message
+            messageFinish.textContent = 'May the luck be with you next time';
         }
 
         this.resetGame();
@@ -160,8 +161,13 @@ class Game {
         this.missed = 0;
         // Reset active phrase
         this.activePhrase = null;
-        // Reset to key class all on screen keyboard buttons
-        [...document.querySelectorAll('#qwerty button.key')].forEach(element => element.className = 'key');
+        // Remove clone keys for animations
+        [...document.querySelectorAll('button.clone')].forEach(clone => clone.parentNode.removeChild(clone));
+        // Reset to key class and enable all onscreen keyboard buttons
+        [...document.querySelectorAll('#qwerty button.key')].forEach(element => {
+            element.className = 'key';
+            element.disabled = false;
+        });
         // Remove phrase to guess elements
         [...document.querySelectorAll('#phrase li')].forEach(li => li.parentNode.removeChild(li));
         // Reset all hearts
